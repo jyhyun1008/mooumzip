@@ -41,7 +41,7 @@ export default {
                         'content-type': 'application/json',
                     },
                     body: JSON.stringify({
-                        client_name: "roominous",
+                        client_name: "mooumzip",
                         redirect_uris: `${location.origin}/callback/`,
                         scopes: 'read write'
                     })

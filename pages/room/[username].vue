@@ -4,6 +4,10 @@
             <Linkmap :username="username" :host="host"/>
         </div>
         <div id="sidebar">
+            <div id="jitsibox">
+                <div class="back"><i class="las la-arrow-left"></i></div>
+                <div id="jitsi"></div>
+            </div>
             <div id="feedbox">
                 <div id="profile">
                     <div id="profile-header"><img class="avatar" :src="profileBanner"></div>

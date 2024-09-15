@@ -4,9 +4,11 @@ export default defineNuxtConfig({
   vite: {
     server: {
       hmr: {
-        protocol: 'ws',
-      }
-    }
+        clientPort: 443,
+        port:3000,
+        protocol: "wss",
+      },
+    },
   },
   runtimeConfig: {
     siteUrl: '',
@@ -25,12 +27,16 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: "Roominous",
       link: [{ rel: 'stylesheet', href: 'https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css' }],
+      meta: [
+        { charset: "utf-8" },
+        { "http-equiv": "Content-Security-Policy", content: "upgrade-insecure-requests" }, // 추가
+      ],
       script: [
         { src: 'https://cdn.socket.io/4.7.5/socket.io.min.js', defer: true },
-        { src: '/js/index.js', defer: true },
-        ],
+        { src: 'https://meet.jit.si/external_api.js', defer: true },
+        { src: '/js/jitsi.js', defer: true },
+      ],
     }
   },
 

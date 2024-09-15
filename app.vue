@@ -2,7 +2,7 @@
   <div id="app">
     <NuxtLayout>
       <div id="nav">
-          <div id="logo"><a href="/">Roominous</a></div>
+          <div id="logo"><a href="/">MOOUM.ZIP</a></div>
           <div id="nav-list">
             <div class="nav-item">About</div>
             <div class="nav-item" id="signin"></div>
@@ -207,12 +207,16 @@ body {
   gap:10px;
 }
 
-#feedbox, #chatbox {
+.back {
+  height: 2em;
+}
+
+#feedbox, #chatbox, #jitsibox {
   border-radius: 10px;
   border: 1px solid var(--border);
 }
 
-#feedbox {
+#feedbox, #jitsibox {
   flex-grow: 1;
   overflow: scroll;
 }

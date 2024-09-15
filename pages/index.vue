@@ -1,26 +1,19 @@
 <template>
-    <html lang="ko">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title>Roominous Landing Page</title>
-    </head>
     <body>
     
       <section class="hero">
         <img class="hero-image" src="https://for.stella.place/D1/d902c143-0de7-4701-b175-22b4502f173d.webp">
         <div class="hero-content">
-          <h2>새로운 연결 통로, Roominous</h2>
+          <h2>새로운 링크 수집기, 모음집</h2>
           <p>당신의 모든 것을 요약하세요!</p>
           <a href="/room/@hyun1008@peacht.art" class="cta-button">데모 사이트</a>
         </div>
       </section>
     
       <section id="about" class="about">
-        <h2>Roominous란?</h2>
-        <p>가지고 계신 SNS와 사이트의 링크를 방을 꾸미듯 정리할 수 있는 서비스입니다.</p>
-        <p>링크를 정리하고, 피드를 관리하고, 방을 방문하는 유저들과 채팅해 보세요.</p>
+        <h2>모음집이란?</h2>
+        <p>가지고 계신 SNS와 사이트의 링크를 집을 꾸미듯 정리할 수 있는 서비스입니다.</p>
+        <p>링크를 정리하고, 피드를 관리하고, 집을 방문하는 유저들과 채팅해 보세요.</p>
       </section>
     
       <section id="features" class="features">
@@ -43,15 +36,14 @@
     
       <section id="signup" class="signup">
         <h2>지금 가입하세요</h2>
-        <p>Roominous에서 새로운 경험을 시작해보세요!</p>
+        <p>모음집에서 새로운 경험을 시작해보세요!</p>
         <a href="/signin" class="cta-button">연합우주 아이디로 로그인</a>
       </section>
     
       <footer>
-        <p>© 2024 Roominous. All Rights Reserved.</p>
+        <p>© 2024 모음집. All Rights Reserved.</p>
       </footer>
     </body>
-    </html>
     
 </template>
 <script>

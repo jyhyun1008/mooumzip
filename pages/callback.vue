@@ -148,9 +148,9 @@ export default {
 
         register()
 
-        userDataArray = document.querySelector('#userInfo').innerText
-        googleAccessToken = document.querySelector('#token').innerText
-        account = localStorage.getItem('account')
+        userDataArray = String(document.querySelector('#userInfo').innerText)
+        googleAccessToken = String(document.querySelector('#token').innerText)
+        account = String(localStorage.getItem('account'))
 
         document.querySelector('#userInfo').innerText = ''
         document.querySelector('#token').innerText = ''
