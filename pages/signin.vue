@@ -42,7 +42,7 @@ export default {
                     },
                     body: JSON.stringify({
                         client_name: "roominous",
-                        redirect_uris: `${location.href.split('?')[0]}`,
+                        redirect_uris: `${location.origin}/callback/`,
                         scopes: 'read write'
                     })
                 }
@@ -53,7 +53,7 @@ export default {
                     localStorage.setItem('client_id', client_id)
                     localStorage.setItem('client_secret', client_secret)
 
-                    const mastodonSigninUrl = `https://${host}/oauth/authorize?response_type=code&client_id=${client_id}&redirect_uri=${location.origin}%2Fcallback%2F&scope=read%20write&lang=ko-KR`
+                    const mastodonSigninUrl = `https://${host}/oauth/authorize?response_type=code&client_id=${client_id}&redirect_uri=${encodeURIComponent(location.origin)}%2Fcallback%2F&scope=read%20write&lang=ko-KR`
                     location.href = mastodonSigninUrl;
 
                 } catch(err) {

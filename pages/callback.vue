@@ -108,7 +108,7 @@ export default {
                             code: code,
                             client_id: localStorage.getItem('client_id'),
                             client_secret: localStorage.getItem('client_secret'),
-                            redirect_uri: `${location.href.split('?')[0]}`,
+                            redirect_uri: `${location.origin}/callback/`,
                             scope: 'read write'
                         })
                     }
