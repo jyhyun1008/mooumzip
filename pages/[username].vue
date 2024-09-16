@@ -63,6 +63,11 @@ var avatarPosition = {
 export default {
 mounted() {
 
+    const route = useRoute()
+
+    const host = route.params.username.split('@')[2]
+    const username = route.params.username.split('@')[1]
+
     function reloadAvatar(res) {
         document.querySelector(".avatarfloor").innerHTML = ''
         for (var i=0; i<res.users.length; i++) {
@@ -90,7 +95,7 @@ mounted() {
         path: '/api/socket.io',
     })
     socket.on('connected', (response) => {
-        socket.emit('sendInfo', {userId: signinId, userNickname: signinName, userPosition: avatarPosition})
+        socket.emit('sendInfo', {room: `@${username}@${host}`, userId: signinId, userNickname: signinName, userPosition: avatarPosition})
     })
     socket.on('firstJoinInfo', (res) => {
         document.querySelector("#chat-content").innerHTML += `<div class="chat"><div class="chat-text">${res.userNickname} joined here!</div></div>`
@@ -125,29 +130,29 @@ mounted() {
             //왼쪽 방향키
             if (avatarPosition.x > 0) {
                 avatarPosition.x -= 1
-                socket.emit('sendInfo', {userId: signinId, userNickname: signinName, userPosition: avatarPosition})
+                socket.emit('sendInfo', {room: `@${username}@${host}`, userId: signinId, userNickname: signinName, userPosition: avatarPosition})
             }
         } else if (e.keyCode == 38) {
             //위 방향키
             if (avatarPosition.y > 0) {
                 avatarPosition.y -= 1
-                socket.emit('sendInfo', {userId: signinId, userNickname: signinName, userPosition: avatarPosition})
+                socket.emit('sendInfo', {room: `@${username}@${host}`, userId: signinId, userNickname: signinName, userPosition: avatarPosition})
             }
         } else if (e.keyCode == 39) {
             //오른쪽
             if (avatarPosition.x < 7) {
                 avatarPosition.x += 1
-                socket.emit('sendInfo', {userId: signinId, userNickname: signinName, userPosition: avatarPosition})
+                socket.emit('sendInfo', {room: `@${username}@${host}`, userId: signinId, userNickname: signinName, userPosition: avatarPosition})
             }
         } else if (e.keyCode == 40) {
             //아래 방향키
             if (avatarPosition.y < 7) {
                 avatarPosition.y += 1
-                socket.emit('sendInfo', {userId: signinId, userNickname: signinName, userPosition: avatarPosition})
+                socket.emit('sendInfo', {room: `@${username}@${host}`, userId: signinId, userNickname: signinName, userPosition: avatarPosition})
             }
         } else if (e.keyCode == 13) {
             if (document.querySelector("#chat-send-input").value != '') {
-                socket.emit('sendChat', {userId: signinId, userNickname: signinName, text: document.querySelector("#chat-send-input").value})
+                socket.emit('sendChat', {room: `@${username}@${host}`, userId: signinId, userNickname: signinName, text: document.querySelector("#chat-send-input").value})
                 document.querySelector("#chat-send-input").value = ''
             }
         }
@@ -160,6 +165,7 @@ async setup () {
 
     const host = route.params.username.split('@')[2]
     const username = route.params.username.split('@')[1]
+
     var instanceType = 'misskey'
 
     try {
