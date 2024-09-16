@@ -115,39 +115,31 @@ if (process.server){
     var floor2 = ''
     avatars = ''
 
-    // myData.map.items.push({itemUrl:"https://for.stella.place/D1/3361c7bc-f60c-4e21-b573-c59a80687344.webp", position:{x:avatarPosition.x, y:avatarPosition.y, z:avatarPosition.z}})
-
     for (let i=0; i<myDataJson.map.items.length; i++){
         var itemPlaced = myDataJson.map.items[i]
         var itemUrl
         var itemFunc = ''
-        var isAvatar = false
-        if (itemPlaced.itemUrl) {
-            itemUrl = itemPlaced.itemUrl
-            isAvatar = true
+        if (itemPlaced.isRotated == false) {
+            itemUrl = itemDataJson[itemPlaced.itemId].frontUrl
         } else {
-            if (itemPlaced.isRotated == false) {
-                itemUrl = itemDataJson[itemPlaced.itemId].frontUrl
-            } else {
-                itemUrl = itemDataJson[itemPlaced.itemId].rearUrl
-            }
-            if (itemDataJson[itemPlaced.itemId].function) {
-                itemFunc = itemDataJson[itemPlaced.itemId].function + '()'
-            }
+            itemUrl = itemDataJson[itemPlaced.itemId].rearUrl
+        }
+        if (itemPlaced.function) {
+            itemFunc = itemPlaced.function + '()'
         }
         if (itemPlaced.position.z == 0) {
             if (itemPlaced.isFlipped == false) {
-                floor1 += `<div class="itembox" style="position: absolute; top: calc(268px + 16 * ${itemPlaced.position.x}px + 16 * ${itemPlaced.position.y}px); left: calc(-32px + 32 * ${itemPlaced.position.x}px - 32 * ${itemPlaced.position.y}px);" ><img src="${itemUrl}" style="z-index: ${20+itemPlaced.position.x+itemPlaced.position.y};" onclick="${itemFunc}"/>`
+                floor1 += `<div class="itembox" style="position: absolute; top: calc(268px + 16 * ${itemPlaced.position.x}px + 16 * ${itemPlaced.position.y}px); left: calc(-32px + 32 * ${itemPlaced.position.x}px - 32 * ${itemPlaced.position.y}px);" ><img src="${itemUrl}" style="z-index: ${20+itemPlaced.position.x+itemPlaced.position.y};" onclick="${itemFunc}"`
                 if (itemPlaced.title) {
-                    floor1 += `<div class="itemtext" style="position: absolute; display: none; width: 64px; z-index: 60;">${itemPlaced.title}</div>`
+                    floor1 += ` onmouseover="playPop()";/><div class="itemtext" style="position: absolute; display: none; width: 64px; z-index: 60;">${itemPlaced.title}</div>`
                 }
-                floor1 += '</div>'
+                floor1 += '/></div>'
             } else {
-                floor1 += `<div class="itembox" style="position: absolute; top: calc(268px + 16 * ${itemPlaced.position.x}px + 16 * ${itemPlaced.position.y}px); left: calc(-32px + 32 * ${itemPlaced.position.x}px - 32 * ${itemPlaced.position.y}px);" ><img src="${itemUrl}" onclick="${itemFunc}" style="z-index: ${20+itemPlaced.position.x+itemPlaced.position.y}; transform: scaleX(-1); -webkit-transform: scaleX(-1);" />`
+                floor1 += `<div class="itembox" style="position: absolute; top: calc(268px + 16 * ${itemPlaced.position.x}px + 16 * ${itemPlaced.position.y}px); left: calc(-32px + 32 * ${itemPlaced.position.x}px - 32 * ${itemPlaced.position.y}px);" ><img src="${itemUrl}" onclick="${itemFunc}" style="z-index: ${20+itemPlaced.position.x+itemPlaced.position.y}; transform: scaleX(-1); -webkit-transform: scaleX(-1);"`
                 if (itemPlaced.title) {
-                    floor1 += `<div class="itemtext" style="position: absolute; display: none; width: 64px; z-index: 60;">${itemPlaced.title}</div>`
+                    floor1 += ` onmouseover="playPop()";/><div class="itemtext" style="position: absolute; display: none; width: 64px; z-index: 60;">${itemPlaced.title}</div>`
                 }
-                floor1 += `</div>`
+                floor1 += `/></div>`
             }
         } else if (itemPlaced.position.z == 1) {
             if (itemPlaced.isFlipped == false) {

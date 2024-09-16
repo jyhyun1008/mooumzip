@@ -248,4 +248,13 @@ async setup () {
 </script>
 <style scoped>
 
+.back {
+    display: flex;
+    align-items: center;
+}
+
+.back i {
+    margin-left: 10px;
+}
+
 </style>

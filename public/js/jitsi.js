@@ -1,6 +1,6 @@
 const domain = 'hello.pointless.chat';
 const options = {
-    roomName: `mooumzip-jitsi-room${location.pathname.split('/')[2]}`,
+    roomName: `mooumzip-jitsi-room${location.pathname.split('/')[1]}`,
     parentNode: document.querySelector('#jitsi'),
     lang: 'ko',
     userInfo: {
@@ -8,7 +8,8 @@ const options = {
     }
 };
 
-function makeJitsiGreatAgain() {
+function jitsiStart() {
+    jitsiEnd()
     document.querySelector('#jitsibox').style.display='flex'
     const JITSIAPI = new JitsiMeetExternalAPI(domain, options)
     document.querySelector('#feedbox').style.display='none'
