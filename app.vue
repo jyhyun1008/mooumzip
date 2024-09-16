@@ -183,6 +183,10 @@ body {
   height:64px;
 }
 
+.firstfloor img:hover, .secondfloor img:hover {
+  filter: drop-shadow(0px 0px 2px #FFF);
+}
+
 .linkmap>img {
   position: absolute;
 }
@@ -198,6 +202,10 @@ body {
 
 .map-avatarbox:hover .map-nickname {
   display: block;
+}
+
+.itembox img:hover+.itemtext {
+  display: block !important;
 }
 
 #sidebar {
@@ -219,6 +227,14 @@ body {
 #feedbox, #jitsibox {
   flex-grow: 1;
   overflow: scroll;
+}
+
+#jitsibox {
+  flex-direction: column;
+}
+
+#jitsi {
+  flex-grow: 1;
 }
 
 #profile {

@@ -2,11 +2,10 @@
     <body>
     
       <section class="hero">
-        <img class="hero-image" src="https://for.stella.place/D1/d902c143-0de7-4701-b175-22b4502f173d.webp">
         <div class="hero-content">
           <h2>새로운 링크 수집기, 모음집</h2>
           <p>당신의 모든 것을 요약하세요!</p>
-          <a href="/room/@hyun1008@peacht.art" class="cta-button">데모 사이트</a>
+          <a href="/@hyun1008@peacht.art" class="cta-button">데모 사이트</a>
         </div>
       </section>
     
@@ -79,21 +78,13 @@ nav ul li a {
 }
 
 .hero {
-  color: #fff;
+  background-image: url('https://for.stella.place/D1/6ca1b3a2-87c9-4c11-a442-5652d8cdc25f.webp');
+  background-size: cover;
+  background-position: center;
   text-align: center;
   padding: 5rem 2rem;
   overflow: hidden;
-}
-
-.hero-image {
-    width: 100%;
-    height: 500px;
-    object-fit: cover;
-    filter: brightness(0.5);
-    position:absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
+  color: white;
 }
 
 .hero-content {

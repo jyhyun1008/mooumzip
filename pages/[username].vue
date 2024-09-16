@@ -4,8 +4,8 @@
             <Linkmap :username="username" :host="host"/>
         </div>
         <div id="sidebar">
-            <div id="jitsibox">
-                <div class="back"><i class="las la-arrow-left"></i></div>
+            <div id="jitsibox" style="display: none;">
+                <div class="back" onclick="jitsiEnd()"><i class="las la-arrow-left"></i></div>
                 <div id="jitsi"></div>
             </div>
             <div id="feedbox">

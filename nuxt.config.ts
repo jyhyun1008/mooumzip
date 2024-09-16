@@ -35,6 +35,7 @@ export default defineNuxtConfig({
       script: [
         { src: 'https://cdn.socket.io/4.7.5/socket.io.min.js', defer: true },
         { src: 'https://meet.jit.si/external_api.js', defer: true },
+        { src: '/js/index.js', defer: true },
         { src: '/js/jitsi.js', defer: true },
       ],
     }
