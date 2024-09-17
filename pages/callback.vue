@@ -131,7 +131,7 @@ export default {
                     nickname = meRes.display_name
             
                 }
-                account = `{"username": "${username}", "host": "${sessionHost}", "inventory": [], "coin": 1000, "title": "예시 제목", "map": {"bg": 3, "wall": 1, "floor": 2, "items": [{"itemId": 0, "position": {"x": 0, "y": 0, "z":0}, "isRotated": false, "isFlipped": true, "url": ""}]}}`
+                account = `{"username": "${username}", "host": "${sessionHost}", "inventory": [], "coin": 1000, "title": "${username}'s MooumZip'", "map": {"bg": 3, "wall": 1, "floor": 2, "items": [{"uid": 0, "itemId": 0, "position": {"x": 0, "y": 0, "z":0}, "isRotated": false, "isFlipped": true, "url": ""}]}}`
 
                 localStorage.setItem("signinId", `@${username}@${sessionHost}`)
                 localStorage.setItem("signinName", nickname)

@@ -9,8 +9,8 @@
         <div class="linkmap secondwall" v-html="wall2"></div>
         <div class="linkmap thirdwall" v-html="wall3"></div>
         <div class="linkmap firstfloor" v-html="floor1"></div>
-        <div class="linkmap avatarfloor" v-html="avatars"></div>
         <div class="linkmap secondfloor" v-html="floor2"></div>
+        <div class="linkmap avatarfloor" v-html="avatars"></div>
         <div class="linkmap chatfloor"></div>
     </div>
 
@@ -127,7 +127,7 @@ if (process.server){
         if (itemPlaced.function) {
             itemFunc = itemPlaced.function + '()'
         } else if (itemPlaced.url) {
-            itemFunc = `window.location.href = '${itemPlaced.url}'`
+            itemFunc = `window.open('${itemPlaced.url}')`
         }
         if (itemPlaced.position.z == 0) {
             if (itemPlaced.isFlipped == false) {
