@@ -12,6 +12,7 @@ function jitsiStart() {
     jitsiEnd()
     document.querySelector('#jitsibox').style.display='flex'
     const JITSIAPI = new JitsiMeetExternalAPI(domain, options)
+    document.querySelector('#boardbox').style.display='none'
     document.querySelector('#feedbox').style.display='none'
 }
 

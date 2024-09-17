@@ -219,12 +219,12 @@ body {
   height: 2em;
 }
 
-#feedbox, #chatbox, #jitsibox {
+#feedbox, #chatbox, #jitsibox, #boardbox {
   border-radius: 10px;
   border: 1px solid var(--border);
 }
 
-#feedbox, #jitsibox {
+#feedbox, #jitsibox, #boardbox {
   flex-grow: 1;
   overflow: scroll;
 }
@@ -233,7 +233,7 @@ body {
   flex-direction: column;
 }
 
-#jitsi {
+#jitsi, #board {
   flex-grow: 1;
 }
 

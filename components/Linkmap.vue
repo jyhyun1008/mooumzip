@@ -126,6 +126,8 @@ if (process.server){
         }
         if (itemPlaced.function) {
             itemFunc = itemPlaced.function + '()'
+        } else if (itemPlaced.url) {
+            itemFunc = `window.location.href = '${itemPlaced.url}'`
         }
         if (itemPlaced.position.z == 0) {
             if (itemPlaced.isFlipped == false) {

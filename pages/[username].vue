@@ -8,6 +8,40 @@
                 <div class="back" onclick="jitsiEnd()"><i class="las la-arrow-left"></i></div>
                 <div id="jitsi"></div>
             </div>
+            <div id="boardbox" style="display: none;">
+                <div class="back" onclick="boardEnd()"><i class="las la-arrow-left"></i></div>
+                <div id="board">
+                    <div class="board-context">
+                        <div class="board">
+                            <div class="feed-title">{{boardPage.cw}}</div>
+                            <div class="board-info">
+                                <div class="board-avatar"><img class="avatar" :src="boardPage.user?.avatarUrl"></div>
+                                <div class="feed-nickname">{{boardPage.user?.name}}</div>
+                            </div>
+                        </div>
+                        <MDCRenderer v-if="boardPage.text?.body" class="feed-text" :body="boardPage.text?.body" :data="boardPage.text?.data" />
+                        <div v-if="boardPage.files?.length > 0">
+                            <img :src="boardPage.files[0].url" style="width:100%;">
+                        </div>
+                        <div v-if="boardPage.media_attachments?.length > 0">
+                            <img :src="boardPage.media_attachments[0].url" style="width:100%">
+                        </div>
+                        <div class="backToList" @click="boardPage = '';BackToBoardList()">Back to List</div>
+                    </div>
+                    <div style="border-bottom: 1px solid var(--border);">
+                        <h4 style="padding-left: 10px;">List</h4>
+                    </div>
+                    <div v-for="(note, i) in boardPosts.filter((note) => note.text && note.cw)" :key="i" >
+                        <div class="board" @click="boardPage = note;changeBoardPage()">
+                            <div class="feed-title">{{note.cw}}</div>
+                            <div class="board-info">
+                                <div class="board-avatar"><img class="avatar" :src="note.user.avatarUrl"></div>
+                                <div class="feed-nickname">{{note.user.name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="feedbox">
                 <div id="profile">
                     <div id="profile-header"><img class="avatar" :src="profileBanner"></div>
@@ -48,10 +82,12 @@
         </div>
     </div>
 </template>
-<script>
+<script setup>
 
-import {parseMarkdown} from '@nuxtjs/mdc/runtime'
-import {io} from 'socket.io-client'
+import { onMounted } from 'vue';
+
+import { parseMarkdown } from '@nuxtjs/mdc/runtime'
+import { io } from 'socket.io-client'
 import { v4 as uuidv4 } from 'uuid';
 
 var avatarPosition = {
@@ -60,13 +96,7 @@ var avatarPosition = {
     z: 0
 }
 
-export default {
-mounted() {
-
-    const route = useRoute()
-
-    const host = route.params.username.split('@')[2]
-    const username = route.params.username.split('@')[1]
+onMounted(()=> {
 
     function reloadAvatar(res) {
         document.querySelector(".avatarfloor").innerHTML = ''
@@ -158,8 +188,17 @@ mounted() {
         }
     });
     }
-},
-async setup () {
+})
+
+    const boardPage = useState('boardPage', () => '')
+
+    function changeBoardPage() {
+        document.querySelector(".board-context").style = 'display: block; border-bottom: var(--border) 1px solid;'
+    }
+
+    function BackToBoardList() {
+        document.querySelector(".board-context").style = 'display: none; border-bottom: unset;'
+    }
 
     const route = useRoute()
 
@@ -184,7 +223,7 @@ async setup () {
         }
     }
 
-    var userId, nickname, profileAvatar, profileBanner, bio, notes
+    var userId, nickname, profileAvatar, profileBanner, bio, notes, boardPosts
 
     if (instanceType == 'misskey') {
 
@@ -204,7 +243,7 @@ async setup () {
 
         var getNoteUrl = `https://${host}/api/users/notes`
         var getNoteParam = {
-        method: 'POST',
+            method: 'POST',
             headers: {
                 'content-type': 'application/json',
             },
@@ -218,6 +257,19 @@ async setup () {
         profileBanner = getProfileFetch.bannerUrl
         bio = getProfileFetch.description
         notes = await $fetch(getNoteUrl, getNoteParam)
+
+        var getMentionUrl = `https://${host}/api/notes/search-by-tag`
+        var getMentionParam = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                tag: `mooumzip_${username}_${host.replace(/\./gm, '_')}`,
+                limit: 100
+            })
+        }
+        boardPosts = await $fetch(getMentionUrl, getMentionParam) ?? {}
     } else if (instanceType == 'mastodon') {
         var getProfileUrl = `https://${host}/api/v1/accounts/lookup?acct=${username}`
         var getProfileFetch = await $fetch(getProfileUrl)
@@ -231,6 +283,19 @@ async setup () {
         var getNoteUrl = `https://${host}/api/v1/accounts/${userId}/statuses`
         notes = await $fetch(getNoteUrl)
         notes = notes.slice(10)
+
+        var getMentionUrl = `https://stella.place/api/notes/search-by-tag`
+        var getMentionParam = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                tag: `mooumzip_${username}_${host.replace(/\./gm, '_')}`,
+                limit: 100
+            })
+        }
+        boardPosts = await $fetch(getMentionUrl, getMentionParam) ?? {}
     }
     if (instanceType == 'misskey') {
         for await (let note of notes) {
@@ -246,10 +311,12 @@ async setup () {
             }
         }
     }
-
-    return { username, host, nickname, profileAvatar, profileBanner, bio, notes }
-}
-}
+    for await (let note of boardPosts) {
+        if (typeof note.text == 'string') {
+            note.text = note.text.split('#mooum')[0]
+            note.text = await parseMarkdown(note.text)
+        }
+    }
 
 </script>
 <style scoped>
@@ -257,10 +324,55 @@ async setup () {
 .back {
     display: flex;
     align-items: center;
+    border-bottom: 1px solid var(--border);
 }
 
 .back i {
     margin-left: 10px;
+}
+
+#boardbox {
+    display: flex;
+    flex-direction: column;
+}
+
+.board {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.board-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.board-avatar {
+  width: 1.4em;
+  min-width: 1.4em;
+  height: 1.4em;
+  background-color: white;
+  border-radius: 50%;
+  border: var(--border) 1px solid;
+  overflow: hidden;
+}
+
+.board-context {
+    display: none;
+}
+
+.feed-text {
+    padding: 10px;
+}
+
+.backToList {
+    text-align: center;
+    padding: 5px;
+    background-color: var(--bg);
 }
 
 </style>
