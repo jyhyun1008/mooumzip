@@ -21,7 +21,13 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@nuxtjs/mdc', 'nuxt-socket-io'],
+  modules: ['@nuxtjs/mdc', 'nuxt-socket-io', '@pinia/nuxt'],
+  imports: {
+    dirs: ['./stores']
+  },
+  pinia: {
+    autoImports: ['defineStore', 'acceptHMRUpdate']
+  },
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
 

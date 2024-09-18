@@ -18,9 +18,9 @@
 export default {
     mounted() {
         if (localStorage.getItem('account')) {
-            document.querySelector('#signin').innerHTML = '<a href="/signout">Sign Out</a>'
+            document.querySelector('#signin').innerHTML = `<strong><a href="/signout">Sign Out</a></strong> from ${localStorage.getItem('signinId')}`
         } else {
-          document.querySelector('#signin').innerHTML = '<a href="/signin">Sign In</a>'
+          document.querySelector('#signin').innerHTML = '<strong><a href="/signin">Sign In</a></strong>'
         }
     }
   }

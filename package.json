@@ -11,13 +11,22 @@
   },
   "dependencies": {
     "@nuxtjs/mdc": "^0.8.3",
+    "@pinia/nuxt": "^0.5.4",
     "jsonwebtoken": "8.5.1",
     "markdown-it": "^14.1.0",
     "nuxt": "^3.13.0",
     "nuxt-socket-io": "^3.0.13",
+    "pinia": "^2.2.2",
     "socket.io": "^4.7.5",
     "uuid": "^10.0.0",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@vueuse/core": "^11.1.0",
+    "@vueuse/nuxt": "^11.1.0"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }

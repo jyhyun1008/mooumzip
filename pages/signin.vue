@@ -10,75 +10,78 @@
 
 </template>
 
-<script>
+<script setup>
 
 import { v4 as uuidv4 } from 'uuid';
+import { onMounted } from 'vue';
 
-export default {
-    mounted() {
-        if (localStorage.getItem('account')) {
-            location.href = location.origin
+onMounted(() => {
+    if (localStorage.getItem('account')) {
+        location.href = location.origin
+    }
+})
+
+function signin() {
+    var host = document.querySelector('#server').value
+    let uuid = uuidv4()
+
+    localStorage.setItem("lastSessionId", uuid)
+    localStorage.setItem("lastHost", host)
+
+    function misskeySignin() {
+        const misskeySigninUrl = 'https://'+host+'/miauth/'+uuid+'?name=Multi-Account&callback='+encodeURIComponent(location.origin)+'/callback/?permission=write:account,read:account,write:drive,write:notes'
+        location.href = misskeySigninUrl;
+    }
+
+    async function mastodonSignin() {
+        const mastodonCreateAppUrl = 'https://'+host+'/api/v1/apps'
+        const mastodonCreateAppParam = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                client_name: "mooumzip",
+                redirect_uris: `${location.origin}/callback/`,
+                scopes: 'read write'
+            })
         }
-    },
-    methods: {
-        async signin() {
-            var host = document.querySelector('#server').value
-            let uuid = uuidv4()
+        try {
+            var mastodonCreateApp = await $fetch(mastodonCreateAppUrl, mastodonCreateAppParam)
+            var client_id = mastodonCreateApp.client_id
+            var client_secret = mastodonCreateApp.client_secret
 
-            localStorage.setItem("lastSessionId", uuid)
-            localStorage.setItem("lastHost", host)
+            localStorage.setItem('client_id', client_id)
+            localStorage.setItem('client_secret', client_secret)
 
-            function misskeySignin() {
-                const misskeySigninUrl = 'https://'+host+'/miauth/'+uuid+'?name=Multi-Account&callback='+encodeURIComponent(location.origin)+'/callback/?permission=write:account,read:account,write:drive,write:notes'
-                location.href = misskeySigninUrl;
-            }
+            const mastodonSigninUrl = `https://${host}/oauth/authorize?response_type=code&client_id=${client_id}&redirect_uri=${encodeURIComponent(location.origin)}%2Fcallback%2F&scope=read%20write&lang=ko-KR`
+            location.href = mastodonSigninUrl;
 
-            async function mastodonSignin() {
-                const mastodonCreateAppUrl = 'https://'+host+'/api/v1/apps'
-                const mastodonCreateAppParam = {
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        client_name: "mooumzip",
-                        redirect_uris: `${location.origin}/callback/`,
-                        scopes: 'read write'
-                    })
-                }
-                try {
-                    var mastodonCreateApp = await $fetch(mastodonCreateAppUrl, mastodonCreateAppParam)
-                    var client_id = mastodonCreateApp.client_id
-                    var client_secret = mastodonCreateApp.client_secret
-                    localStorage.setItem('client_id', client_id)
-                    localStorage.setItem('client_secret', client_secret)
+        } catch(err) {
+            console.log(err)
+        }
+    }
 
-                    const mastodonSigninUrl = `https://${host}/oauth/authorize?response_type=code&client_id=${client_id}&redirect_uri=${encodeURIComponent(location.origin)}%2Fcallback%2F&scope=read%20write&lang=ko-KR`
-                    location.href = mastodonSigninUrl;
-
-                } catch(err) {
-                    console.log(err)
-                }
-            }
-
+    async function trySignin() {
+        try {
+            //미스키 api
+            const misskeyApiTestUrl = 'https://'+host+'/api/emojis'
+            var misskeyFetch = await $fetch(misskeyApiTestUrl)
+            misskeySignin()
+        } catch(err1) {
             try {
-                //미스키 api
-                const misskeyApiTestUrl = 'https://'+host+'/api/emojis'
-                var misskeyFetch = await $fetch(misskeyApiTestUrl)
-                misskeySignin()
-            } catch(err1) {
-                try {
-                    //마스토돈 api
-                    const mastodonApiTestUrl = 'https://'+host+'/api/v2/instance'
-                    var mastodonFetch = await $fetch(mastodonApiTestUrl)
-                    mastodonSignin()
-                } catch(err2) {
-                    document.querySelector('.login-container').innerHTML += '정확한 인스턴스 주소를 입력했는지 확인해 주세요!'
-                }
+                //마스토돈 api
+                const mastodonApiTestUrl = 'https://'+host+'/api/v2/instance'
+                var mastodonFetch = await $fetch(mastodonApiTestUrl)
+                mastodonSignin()
+            } catch(err2) {
+                document.querySelector('.login-container').innerHTML += '정확한 인스턴스 주소를 입력했는지 확인해 주세요!'
             }
         }
     }
+    trySignin()
 }
+
 </script>
 
 <style>
