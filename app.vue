@@ -49,6 +49,10 @@ export default {
   --bg: #f8f8fb;
 }
 
+div {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'IBMPlexSansKR';
   margin: 0;
@@ -100,8 +104,8 @@ body {
   display: flex;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  width: calc(100vw - 40px);
-  height: calc(100dvh - 90px);
+  width: calc(100vw - 20px);
+  height: calc(100dvh - 70px);
   margin: 60px 10px 10px 10px;
   padding: 10px;
   overflow: hidden;
@@ -206,6 +210,32 @@ body {
 
 .itembox img:hover+.itemtext {
   display: block !important;
+}
+
+#linkmap-ui {
+    display: flex;
+    position: absolute;
+    z-index: 999999;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    padding: 5px;
+    align-items: flex-end;
+}
+
+.map-ui {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  min-width: 100px;
+}
+
+.map-ui > div {
+  padding: 5px;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  text-align: center;
 }
 
 #sidebar {

@@ -164,10 +164,4 @@ if (process.server){
 
 <style scoped>
 
-#linkmap-ui {
-    display: flex;
-    position: absolute;
-    z-index: 999999;
-}
-
 </style>
