@@ -109,6 +109,8 @@ async function register() {
             userDataArray = userDataArray.replace('}]}}]}', `}]}}, ${account.replace(/\\"/gm, '"')}]}`)
             saveGoogleSheet(userDataArray)
         }
+
+        location.href = `/@${username}@${sessionHost}`
         
     } else {
         alert('잘못된 접근입니다.')
@@ -117,7 +119,6 @@ async function register() {
 
 onMounted(async() => {
     register()
-    location.href = `/${localStorage.getItem('signinId')}`
 })
 </script>
 
